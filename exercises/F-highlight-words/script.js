@@ -1,5 +1,54 @@
 function highlightWords(paragraph, colours) {
-  // Write your code here...
+  const content = document.getElementById("content");
+
+  //optional - adding the main heading
+  const mainHeading = document.createElement("h1");
+  mainHeading.innerHTML = "Highlight words";
+  content.appendChild(mainHeading);
+
+  //creating the paragraph
+  const myParagraph = document.createElement("p");
+
+  //creating the select element
+  const select = document.createElement("select");
+  select.setAttribute("name", "colors"); //adding the attribute "name" and assigning the value "colors"
+  content.appendChild(select);
+  content.appendChild(myParagraph);
+
+  //iterating through the array of colors
+  colours.map((color) => {
+    //creating the options inside the select
+    let option = document.createElement("option");
+    option.setAttribute("value", color);
+    option.innerHTML = color;
+    select.appendChild(option);
+  });
+
+  //turning the paragraph into an array
+  let paragraphToArray = paragraph.split(" ");
+
+  //creating the onClickFunction for the EventListener
+  const onClickFunction = (event) => {
+    const selectDropdown = document.querySelector("select"); //accessing the select element
+    const selectDropdownColor = selectDropdown.value; //accessing the colors
+
+    //If 'none' is selected in the dropdown, then no highlighting should be applied to the words, or highlighting should be removed if the clicked word is already highlighted.
+    if (selectDropdownColor == "none") {
+      event.target.style.backgroundColor = "transparent";
+    } else {
+      event.target.style.backgroundColor = selectDropdownColor;
+    }
+  };
+
+  //iterating through the array in order to create the spans
+  paragraphToArray.map((word) => {
+    const span = document.createElement("span");
+    span.innerHTML = `${word} `;
+    myParagraph.appendChild(span);
+
+    //adding the event listener
+    span.addEventListener("click", onClickFunction);
+  });
 }
 
 const paragraph =
